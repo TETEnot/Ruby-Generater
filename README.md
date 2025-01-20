@@ -22,7 +22,7 @@
 
 ## デモ
 
-[デモを見る](https://your-vercel-app-url.vercel.app)  
+[デモを見る](https://ruby-generater.vercel.app/)  
 (*公開後にVercelのURLを記載してください*)
 
 
