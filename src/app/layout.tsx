@@ -19,6 +19,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "ルビ変換ジェネレーター",
   description: "縦線と括弧からルビを振ろう",
+  icons: {
+    icon: "/icon.png", // ファビコンのパスを指定
+  },
 };
 
 export default function RootLayout({
