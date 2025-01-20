@@ -11,8 +11,8 @@ const RubyConverter: React.FC = () => {
   const [htmlText, setHtmlText] = useState<string>("");
 
   const handleConvert = () => {
-    // 半角括弧と縦棒に対応した正規表現
-    const rubyPattern = /([^\|]+?)\|（(.+?)）/g;
+    // |漢字(ふりがな) 形式に対応した正規表現
+    const rubyPattern = /\|([^\(]+?)\((.+?)\)/g;
     const result = inputText.replace(
       rubyPattern,
       (_, kanji, ruby) => `<ruby>${kanji}<rt>${ruby}</rt></ruby>`
@@ -48,7 +48,7 @@ const RubyConverter: React.FC = () => {
           </h2>
           <textarea
             className="w-full h-32 border border-gray-600 rounded-md p-4 mb-6 text-lg focus:ring-2 focus:ring-yellow-400 focus:outline-none bg-gray-900 text-white"
-            placeholder="例: 漢字|（かんじ）を入力してください"
+            placeholder="例: |漢字(ふりがな) を入力してください"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
           />
