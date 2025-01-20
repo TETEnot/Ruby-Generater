@@ -2,22 +2,24 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faXTwitter } from '@fortawesome/free-brands-svg-icons'
-// import {  } from '@fortawesome/free-solid-svg-icons'
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
 
 const RubyConverter: React.FC = () => {
   const [inputText, setInputText] = useState<string>("");
   const [convertedText, setConvertedText] = useState<string>("");
+  const [htmlText, setHtmlText] = useState<string>("");
 
   const handleConvert = () => {
-    const rubyPattern = /(\w+)\|（(.+?)）/g;
+    // 半角括弧と縦棒に対応した正規表現
+    const rubyPattern = /([^\|]+?)\|（(.+?)）/g;
     const result = inputText.replace(
       rubyPattern,
       (_, kanji, ruby) => `<ruby>${kanji}<rt>${ruby}</rt></ruby>`
     );
-    setConvertedText(result);
+
+    setConvertedText(result); // HTMLとしてレンダリング
+    setHtmlText(result); // HTMLコード形式の結果を保存
   };
 
   return (
@@ -26,15 +28,14 @@ const RubyConverter: React.FC = () => {
       <header className="flex justify-between items-center py-4 px-8 bg-gray-900 text-white shadow-md">
         <h1 className="text-2xl font-bold">Ruby Converter</h1>
         <nav className="flex space-x-6">
-        <a
-          href="https://twitter.com/Tenmaru0101"
-          target="_blank"
-          rel="noopener noreferrer"
-          className=" text-white hover:text-yellow-500 transition"
-        >
-          <FontAwesomeIcon icon={faXTwitter} className="h-6 w-6" />
-        </a>
-          {/* <FontAwesomeIcon icon={faSquareXTwitter} /> */}
+          <a
+            href="https://twitter.com/Tenmaru0101"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-white hover:text-yellow-500 transition"
+          >
+            <FontAwesomeIcon icon={faXTwitter} className="h-6 w-6" />
+          </a>
         </nav>
       </header>
 
@@ -60,7 +61,7 @@ const RubyConverter: React.FC = () => {
           {convertedText && (
             <div className="mt-6 bg-gray-900 rounded-md p-4 border border-gray-600">
               <h3 className="text-xl font-semibold mb-2 text-white">
-                変換結果:
+                表示結果:
               </h3>
               <div
                 className="text-lg whitespace-pre-wrap text-white"
@@ -72,7 +73,6 @@ const RubyConverter: React.FC = () => {
 
         {/* 右側のキャラクター */}
         <div className="relative w-full lg:w-1/3 flex justify-center mt-12 lg:mt-0">
-          {/* 背景に切り抜き風の控えめな影 */}
           <div className="absolute top-0 left-0 w-[280px] h-[280px] bg-gradient-to-br from-yellow-500 via-yellow-700 to-gray-900 blur-lg rounded-full opacity-20"></div>
           <Image
             src="/character.png"
@@ -81,10 +81,23 @@ const RubyConverter: React.FC = () => {
             height={400}
             className="relative z-10 rounded-lg"
           />
-          {/* 切り抜きエフェクト */}
           <div className="absolute top-4 left-4 w-[400px] h-[400px] rounded-lg border-[3px] border-yellow-400 z-0"></div>
         </div>
       </main>
+
+      {/* HTMLテキスト表示エリア */}
+      {htmlText && (
+        <div className="bg-gray-800 p-6 rounded-md shadow-md border border-gray-600 mx-8 mb-8">
+          <h3 className="text-xl font-bold mb-4 text-yellow-400">
+            HTML形式の結果:
+          </h3>
+          <textarea
+            className="w-full h-32 bg-gray-900 text-white p-4 rounded-md border border-gray-600"
+            value={htmlText}
+            readOnly
+          />
+        </div>
+      )}
 
       {/* フッター */}
       <footer className="py-6 text-center bg-gray-900 text-white">
